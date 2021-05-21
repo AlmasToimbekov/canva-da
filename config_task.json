@@ -1,0 +1,48 @@
+{
+  "start": {
+    "type": "knot",
+    "appendedParameters": {
+      "projectId": "client-dev-canva-da",
+      "dataset": "#DATASET#",
+      "bucket": "#GCS_BUCKET#",
+      "saSource": "client-dev-canva-da.sa360_canva_latam.Conversion_21700000001677020"
+    },
+    "next": "get_users"
+  },
+  "get_users": {
+    "type": "query",
+    "source": {
+      "file": {
+        "projectId": "${projectId}",
+        "bucket": "${bucket}",
+        "name": "sql/query_DA.sql"
+      }
+    },
+    "destination": {
+      "table": {
+        "projectId": "${projectId}",
+        "datasetId": "${DATASET}",
+        "tableId": "double_activation_users_${partitionDay}"
+      },
+      "writeDisposition": "WRITE_TRUNCATE"
+    },
+    "next": "export_users"
+  },
+  "export_users": {
+    "type": "export",
+    "source": {
+      "projectId": "${projectId}",
+      "datasetId": "${dataset}",
+      "tableId": "table_for_export_users",
+      "location": "#DATASET_LOCATION#"
+    },
+    "destination": {
+      "bucket": "${bucket}",
+      "name": "#OUTBOUND#/API[MP_GA4]_config[canva]_size[4]_dryrun_${partitionDay}.ndjson"
+    },
+    "options": {
+      "destinationFormat": "NEWLINE_DELIMITED_JSON",
+      "printHeader": false
+    }
+  }
+}
