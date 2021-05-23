@@ -21,7 +21,7 @@
     "destination": {
       "table": {
         "projectId": "${projectId}",
-        "datasetId": "${DATASET}",
+        "datasetId": "${dataset}",
         "tableId": "double_activation_users_${partitionDay}"
       },
       "writeDisposition": "WRITE_TRUNCATE"
@@ -31,9 +31,9 @@
   "export_users": {
     "type": "export",
     "source": {
-      "projectId": "${projectId}",
-      "datasetId": "${dataset}",
-      "tableId": "table_for_export_users",
+      "projectId": "${destinationTable.projectId}",
+      "datasetId": "${destinationTable.datasetId}",
+      "tableId": "${destinationTable.tableId}",
       "location": "#DATASET_LOCATION#"
     },
     "destination": {
