@@ -38,7 +38,7 @@
     },
     "destination": {
       "bucket": "${bucket}",
-      "name": "#OUTBOUND#/API[CM_GA4]_config[canva]_size[4]_dryrun_${partitionDay}.ndjson"
+      "name": "#OUTBOUND#/API[CM]_config[GA4]_size[4]_dryrun_${partitionDay}.ndjson"
     },
     "options": {
       "destinationFormat": "NEWLINE_DELIMITED_JSON",

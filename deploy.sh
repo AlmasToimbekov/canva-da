@@ -51,7 +51,7 @@ CONFIG_ITEMS=(
 )
 
 # Use this to create of topics and subscriptions.
-SELECTED_APIS_CODES=("CM_GA4")
+SELECTED_APIS_CODES=("CM")
 
 #######################################
 # Create a Cloud Schedular Job which target Pub/Sub.
