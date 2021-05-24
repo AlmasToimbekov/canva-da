@@ -93,7 +93,7 @@ users..."
   local today
   today=$(date '+%Y%m%d')
   bq mk -t "${DATASET}.double_activation_users_${today}" \
-app_instance_id:STRING,timestamp_micros:INTEGER
+gclid:STRING,timestamp_micros:INTEGER
   printf '\n'
 }
 
