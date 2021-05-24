@@ -31,8 +31,8 @@ signup_events AS (
         conversionVisitExternalClickId
 )
 SELECT
-    b.conversionVisitExternalClickId AS app_instance_id,
-    last_activation AS timestamp_micros
+    b.conversionVisitExternalClickId AS gclid,
+    last_activation AS timestampMicros
 FROM
     all_events a
     JOIN signup_events b ON a.conversionVisitExternalClickId = b.conversionVisitExternalClickId
