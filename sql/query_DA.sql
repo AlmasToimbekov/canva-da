@@ -32,7 +32,7 @@ signup_events AS (
 )
 SELECT
     b.conversionVisitExternalClickId AS gclid,
-    last_activation AS timestampMicros
+    UNIX_MICROS(last_activation) AS timestampMicros
 FROM
     all_events a
     JOIN signup_events b ON a.conversionVisitExternalClickId = b.conversionVisitExternalClickId
