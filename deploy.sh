@@ -92,8 +92,11 @@ create_table(){
 users..."
   local today
   today=$(date '+%Y%m%d')
-  bq mk -t "${DATASET}.double_activation_users_${today}" \
+  bq mk -t "${DATASET}.double_activation_gclids_${today}" \
 gclid:STRING,timestamp_micros:INTEGER
+  printf '\n'
+  bq mk -t "${DATASET}.double_activation_users_${today}" \
+user_id:STRING
   printf '\n'
 }
 

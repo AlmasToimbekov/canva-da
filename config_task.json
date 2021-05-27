@@ -2,10 +2,10 @@
   "start": {
     "type": "knot",
     "appendedParameters": {
-      "projectId": "client-dev-canva-da",
+      "projectId": "#PROJECT_ID#",
       "dataset": "#DATASET#",
       "bucket": "#GCS_BUCKET#",
-      "saSource": "client-dev-canva-da.sa360_canva_latam.Conversion_21700000001677020"
+      "saSource": "sa360_canva_latam.Conversion_21700000001677020"
     },
     "next": "get_users"
   },
@@ -22,11 +22,11 @@
       "table": {
         "projectId": "${projectId}",
         "datasetId": "${dataset}",
-        "tableId": "double_activation_users_${partitionDay}"
+        "tableId": "double_activation_gclids_${partitionDay}"
       },
       "writeDisposition": "WRITE_TRUNCATE"
     },
-    "next": "export_users"
+    "next": ["export_users", "save_user_ids"]
   },
   "export_users": {
     "type": "export",
@@ -43,6 +43,24 @@
     "options": {
       "destinationFormat": "NEWLINE_DELIMITED_JSON",
       "printHeader": false
+    }
+  },
+  "save_user_ids": {
+    "type": "query",
+    "source": {
+      "file": {
+        "projectId": "${projectId}",
+        "bucket": "${bucket}",
+        "name": "sql/save_user_ids.sql"
+      }
+    },
+    "destination": {
+      "table": {
+        "projectId": "${projectId}",
+        "datasetId": "${dataset}",
+        "tableId": "double_activation_users_${partitionDay}"
+      },
+      "writeDisposition": "WRITE_TRUNCATE"
     }
   }
 }
