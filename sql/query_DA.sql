@@ -1,45 +1,42 @@
-WITH all_events AS (
+with signup_events as (
     SELECT
-        MIN(conversionTimestamp) AS first_activation,
-        MAX(conversionTimestamp) AS last_activation,
+        row_number() over (ORDER BY count(*) desc) index,
+        MIN(conversionTimestamp) AS signup,
         conversionVisitExternalClickId
     FROM
-        `${saSource}`
+        `client-dev-canva-da.sa360_canva_apac.Conversion_21700000001677017` a
     WHERE
-        conversionDate BETWEEN DATE_SUB(conversionDate, INTERVAL 8 DAY)
-        AND conversionDate
-        AND floodlightActivity IN (
-            'Floodlight - Sign Up Completed',
-            'Floodlight - Publish Completed'
-        )
+        conversionTimestamp BETWEEN DATE_SUB(TIMESTAMP(CURRENT_DATE()), INTERVAL 8 DAY)
+        AND conversionTimestamp
+        AND floodlightActivity = 'Floodlight - Sign Up Completed'
+    GROUP BY
+        conversionVisitExternalClickId
+), publish_events as (
+    SELECT
+        MIN(conversionTimestamp) AS first_publish,
+        MAX(conversionTimestamp) AS last_publish,
+        conversionVisitExternalClickId
+    FROM
+        `client-dev-canva-da.sa360_canva_apac.Conversion_21700000001677017`
+    WHERE
+        conversionTimestamp BETWEEN DATE_SUB(TIMESTAMP(CURRENT_DATE()), INTERVAL 8 DAY)
+        AND conversionTimestamp
+        AND floodlightActivity = 'Floodlight - Publish Completed'
     GROUP BY
         conversionVisitExternalClickId
     HAVING
         COUNT(conversionDate) > 1
-),
-signup_events AS (
-    SELECT
-        MIN(conversionTimestamp) AS signup_date,
-        conversionVisitExternalClickId
-    FROM
-        `${saSource}`
-    WHERE
-        conversionDate BETWEEN DATE_SUB(conversionDate, INTERVAL 8 DAY)
-        AND conversionDate
-        AND floodlightActivity = 'Floodlight - Sign Up Completed'
-    GROUP BY
-        conversionVisitExternalClickId
 )
 SELECT
-    b.conversionVisitExternalClickId AS gclid,
-    UNIX_MICROS(last_activation) AS timestampMicros
-FROM
-    all_events a
-    JOIN signup_events b ON a.conversionVisitExternalClickId = b.conversionVisitExternalClickId
+    a.conversionVisitExternalClickId AS gclid,
+    UNIX_MICROS(b.last_publish) AS timestampMicros
+FROM signup_events a
+LEFT JOIN publish_events b ON a.conversionVisitExternalClickId = b.conversionVisitExternalClickId
 WHERE
-    # Events must be at least 1 day apart and within 7 days of signup
-    last_activation BETWEEN datetime_add(first_activation, INTERVAL 1 DAY)
-    AND datetime_add(b.signup_date, INTERVAL 7 DAY)
+    a.signup < b.first_publish
+    AND timestamp_sub(b.last_publish, INTERVAL 1 DAY) > b.first_publish
+    AND b.last_publish BETWEEN a.signup AND timestamp_add(a.signup, INTERVAL 7 DAY)
+ORDER BY index
 --    AND b.conversionVisitExternalClickId NOT IN (
 --        SELECT
 --            app_instance_id
@@ -48,3 +45,5 @@ WHERE
         -- WHERE
         --     _TABLE_SUFFIX < '${partitionDay}'
 --    )
+ORDER BY UNIX_MICROS(last_activation) DESC
+LIMIT 5
