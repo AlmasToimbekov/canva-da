@@ -1,9 +1,44 @@
-with signup_events as (
+with all_data as (
+    SELECT
+        conversionTimestamp,
+        floodlightActivity,
+        conversionVisitExternalClickId,
+        conversionDate
+    FROM
+        `${saSource1}`
+    UNION ALL (
+        SELECT
+            conversionTimestamp,
+            floodlightActivity,
+            conversionVisitExternalClickId,
+            conversionDate
+        FROM
+            `${saSource2}`
+    )
+    UNION ALL (
+        SELECT
+            conversionTimestamp,
+            floodlightActivity,
+            conversionVisitExternalClickId,
+            conversionDate
+        FROM
+            `${saSource3}`
+    )
+    UNION ALL (
+        SELECT
+            conversionTimestamp,
+            floodlightActivity,
+            conversionVisitExternalClickId,
+            conversionDate
+        FROM
+            `${saSource4}`
+    )
+), signup_events as (
     SELECT
         MIN(conversionTimestamp) AS signup,
         conversionVisitExternalClickId
     FROM
-        `${saSource}`
+        all_data
     WHERE
         conversionTimestamp BETWEEN DATE_SUB(TIMESTAMP(CURRENT_DATE()), INTERVAL 8 DAY)
         AND conversionTimestamp
@@ -22,7 +57,7 @@ with signup_events as (
         MAX(conversionTimestamp) AS last_publish,
         conversionVisitExternalClickId
     FROM
-        `sa360_canva_apac.Conversion_21700000001677017`
+        all_data
     WHERE
         conversionTimestamp BETWEEN DATE_SUB(TIMESTAMP(CURRENT_DATE()), INTERVAL 8 DAY)
         AND conversionTimestamp

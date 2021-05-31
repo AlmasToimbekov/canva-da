@@ -37,7 +37,7 @@ TIMEZONE="Australia/Sydney"
 DATASET="firebase_predictions"
 
 # Other
-GCS_BUCKET="canva-da-bucket"
+GCS_BUCKET="canva-da-bucket-test"
 DATASET_LOCATION="us"
 
 # Parameter name used by functions to load and save config.
@@ -119,8 +119,8 @@ DEFAULT_INSTALL_TASKS=(
   deploy_tentacles
   deploy_cloud_functions_task_coordinator
   copy_sql_to_gcs
-  "update_api_config ./config_api.json"
-  "update_task_config ./config_task.json"
+  "update_api_config ./config_api_test.json"
+  "update_task_config ./config_task_test.json"
   create_start_cron_job
   "print_finished Double_Activation"
 )

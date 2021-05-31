@@ -6,9 +6,9 @@
       "dataset": "#DATASET#",
       "bucket": "#GCS_BUCKET#",
       "saSource1": "sa360_canva_apac.Conversion_21700000001677017",
-      "saSource2": "sa360_canva_emea.Conversion_21700000001700257",
-      "saSource3": "sa360_canva_latam.Conversion_21700000001677020",
-      "saSource4": "sa360_canva_na.Conversion_21700000001677014"
+      "saSource2": "sa360_canva_latam.Conversion_21700000001677020",
+      "saSource3": "sa360_canva_apac.Conversion_21700000001677017",
+      "saSource4": "sa360_canva_latam.Conversion_21700000001677020"
     },
     "next": "get_users"
   },
