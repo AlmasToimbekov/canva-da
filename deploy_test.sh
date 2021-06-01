@@ -122,7 +122,7 @@ DEFAULT_INSTALL_TASKS=(
   deploy_cloud_functions_task_coordinator
   copy_sql_to_gcs
   "update_api_config ./config_api.json"
-  "update_task_config ./config_task_test.json"
+  "update_task_config ./config_task.json"
   create_start_cron_job
   "print_finished Double_Activation"
 )
