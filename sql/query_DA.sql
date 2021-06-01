@@ -3,7 +3,8 @@ with all_data as (
         conversionTimestamp,
         floodlightActivity,
         conversionVisitExternalClickId,
-        conversionDate
+        conversionDate,
+        user_id
     FROM
         `${saSource1}`
     UNION ALL (
@@ -11,7 +12,8 @@ with all_data as (
             conversionTimestamp,
             floodlightActivity,
             conversionVisitExternalClickId,
-            conversionDate
+            conversionDate,
+            user_id
         FROM
             `${saSource2}`
     )
@@ -20,7 +22,8 @@ with all_data as (
             conversionTimestamp,
             floodlightActivity,
             conversionVisitExternalClickId,
-            conversionDate
+            conversionDate,
+            user_id
         FROM
             `${saSource3}`
     )
@@ -29,7 +32,8 @@ with all_data as (
             conversionTimestamp,
             floodlightActivity,
             conversionVisitExternalClickId,
-            conversionDate
+            conversionDate,
+            user_id
         FROM
             `${saSource4}`
     )
