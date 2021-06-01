@@ -37,35 +37,39 @@ with all_data as (
         FROM
             `${saSource4}`
     )
-), signup_events as (
-    SELECT
-        MIN(conversionTimestamp) AS signup,
-        conversionVisitExternalClickId
-    FROM
-        all_data
+), filtered_data as (
+    SELECT *
+    FROM all_data
     WHERE
-        conversionTimestamp BETWEEN DATE_SUB(TIMESTAMP(CURRENT_DATE()), INTERVAL 8 DAY)
-        AND conversionTimestamp
-        AND floodlightActivity = 'Floodlight - Sign Up Completed'
+        conversionTimestamp BETWEEN DATE_SUB(PARSE_TIMESTAMP("%Y%m%d", '${partitionDay}'), INTERVAL 7 DAY)
+        AND PARSE_TIMESTAMP("%Y%m%d", '${partitionDay}')
         AND user_id NOT IN (
             SELECT
                 user_id
             FROM
                 `${dataset}.double_activation_users_*`
         )
+), signup_events as (
+    SELECT
+        MIN(conversionTimestamp) AS signup,
+        conversionVisitExternalClickId
+    FROM
+        filtered_data
+    WHERE
+        floodlightActivity = 'Floodlight - Sign Up Completed'
     GROUP BY
         conversionVisitExternalClickId
 ), publish_events as (
     SELECT
         MIN(conversionTimestamp) AS first_publish,
         MAX(conversionTimestamp) AS last_publish,
-        conversionVisitExternalClickId
+        f.conversionVisitExternalClickId
     FROM
-        all_data
+        filtered_data f
+    LEFT JOIN signup_events s on f.conversionVisitExternalClickId = s.conversionVisitExternalClickId
     WHERE
-        conversionTimestamp BETWEEN DATE_SUB(TIMESTAMP(CURRENT_DATE()), INTERVAL 8 DAY)
-        AND conversionTimestamp
-        AND floodlightActivity = 'Floodlight - Publish Completed'
+        floodlightActivity = 'Floodlight - Publish Completed'
+        AND f.conversionTimestamp > s.signup
     GROUP BY
         conversionVisitExternalClickId
     HAVING
@@ -77,6 +81,4 @@ SELECT
 FROM signup_events a
 LEFT JOIN publish_events b ON a.conversionVisitExternalClickId = b.conversionVisitExternalClickId
 WHERE
-    a.signup < b.first_publish
-    AND timestamp_sub(b.last_publish, INTERVAL 1 DAY) > b.first_publish
-    AND b.last_publish BETWEEN a.signup AND timestamp_add(a.signup, INTERVAL 7 DAY)
+    TIMESTAMP_SUB(b.last_publish, INTERVAL 1 DAY) > b.first_publish

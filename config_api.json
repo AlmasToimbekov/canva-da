@@ -1,12 +1,23 @@
 {
   "CM": {
-    "GA4": {
+    "prod": {
       "cmAccountId": "1243620",
       "cmConfig": {
         "idType": "gclid",
         "conversion": {
           "floodlightConfigurationId": "9812343",
           "floodlightActivityId": "11228289",
+          "quantity": 1
+        }
+      }
+    },
+    "test": {
+      "cmAccountId": "1243620",
+      "cmConfig": {
+        "idType": "gclid",
+        "conversion": {
+          "floodlightConfigurationId": "9812343",
+          "floodlightActivityId": "11206871",
           "quantity": 1
         }
       }

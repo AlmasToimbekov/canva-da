@@ -41,7 +41,7 @@
     },
     "destination": {
       "bucket": "${bucket}",
-      "name": "#OUTBOUND#/API[CM]_config[GA4]_size[4]_${partitionDay}.ndjson"
+      "name": "#OUTBOUND#/API[CM]_config[#PROJECT_ENV#]_size[4]_${partitionDay}.ndjson"
     },
     "options": {
       "destinationFormat": "NEWLINE_DELIMITED_JSON",

@@ -34,11 +34,12 @@ PROJECT_NAMESPACE="da"
 TIMEZONE="Australia/Sydney"
 
 # BigQuery Dataset Id.
-DATASET="firebase_predictions"
+DATASET="web_double_activations"
 
 # Other
 GCS_BUCKET="canva-da-bucket"
 DATASET_LOCATION="us"
+PROJECT_ENV="prod"
 
 # Parameter name used by functions to load and save config.
 CONFIG_FOLDER_NAME="OUTBOUND"
@@ -47,6 +48,7 @@ CONFIG_ITEMS=(
   "GCS_BUCKET"
   "DATASET"
   "DATASET_LOCATION"
+  "PROJECT_ENV"
   "${CONFIG_FOLDER_NAME}"
 )
 

@@ -1,7 +1,7 @@
 {
-  "name": "firebase-predictions-for-app",
+  "name": "web_double_activations",
   "version": "1.0.0",
-  "author": " lushu@google.com",
+  "author": "almas.toimbekov@mightyhive.com",
   "files": [
     "src/"
   ],
@@ -17,10 +17,6 @@
   "cloud-repo-tools": {
     "requiresKeyFile": true,
     "requiresProjectId": true
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://cse.googlesource.com/accounts/canva/firebase-predictions-for-app"
   },
   "keywords": [],
   "license": "Apache-2.0",
