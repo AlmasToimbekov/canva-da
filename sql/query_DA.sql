@@ -5,34 +5,34 @@ with all_data as (
         conversionVisitExternalClickId,
         conversionDate
     FROM
-        `${saSource1}`
-    UNION ALL (
-        SELECT
-            conversionTimestamp,
-            floodlightActivity,
-            conversionVisitExternalClickId,
-            conversionDate
-        FROM
-            `${saSource2}`
-    )
-    UNION ALL (
-        SELECT
-            conversionTimestamp,
-            floodlightActivity,
-            conversionVisitExternalClickId,
-            conversionDate
-        FROM
-            `${saSource3}`
-    )
-    UNION ALL (
-        SELECT
-            conversionTimestamp,
-            floodlightActivity,
-            conversionVisitExternalClickId,
-            conversionDate
-        FROM
-            `${saSource4}`
-    )
+        `${saSource3}`
+--    UNION ALL (
+--        SELECT
+--            conversionTimestamp,
+--            floodlightActivity,
+--            conversionVisitExternalClickId,
+--            conversionDate
+--        FROM
+--            `${saSource2}`
+--    )
+--    UNION ALL (
+--        SELECT
+--            conversionTimestamp,
+--            floodlightActivity,
+--            conversionVisitExternalClickId,
+--            conversionDate
+--        FROM
+--            `${saSource3}`
+--    )
+--    UNION ALL (
+--        SELECT
+--            conversionTimestamp,
+--            floodlightActivity,
+--            conversionVisitExternalClickId,
+--            conversionDate
+--        FROM
+--            `${saSource4}`
+--    )
 ), signup_events as (
     SELECT
         MIN(conversionTimestamp) AS signup,

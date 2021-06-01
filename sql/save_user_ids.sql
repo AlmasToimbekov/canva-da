@@ -1,8 +1,8 @@
 with all_data as (
-    SELECT user_id, conversionVisitExternalClickId FROM `${saSource1}`
-    UNION ALL (SELECT user_id, conversionVisitExternalClickId FROM `${saSource2}`)
-    UNION ALL (SELECT user_id, conversionVisitExternalClickId FROM `${saSource3}`)
-    UNION ALL (SELECT user_id, conversionVisitExternalClickId FROM `${saSource4}`)
+    SELECT user_id, conversionVisitExternalClickId FROM `${saSource3}`
+--    UNION ALL (SELECT user_id, conversionVisitExternalClickId FROM `${saSource2}`)
+--    UNION ALL (SELECT user_id, conversionVisitExternalClickId FROM `${saSource3}`)
+--    UNION ALL (SELECT user_id, conversionVisitExternalClickId FROM `${saSource4}`)
 )
 SELECT
     DISTINCT user_id

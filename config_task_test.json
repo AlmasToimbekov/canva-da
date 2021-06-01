@@ -7,7 +7,7 @@
       "bucket": "#GCS_BUCKET#",
       "saSource1": "sa360_canva_apac.Conversion_21700000001677017",
       "saSource2": "sa360_canva_latam.Conversion_21700000001677020",
-      "saSource3": "sa360_canva_apac.Conversion_21700000001677017",
+      "saSource3": "sa360_canva_na.Conversion_21700000001677014",
       "saSource4": "sa360_canva_latam.Conversion_21700000001677020"
     },
     "next": "get_users"
