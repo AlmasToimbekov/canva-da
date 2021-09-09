@@ -10,7 +10,7 @@
       "saSource3": "sa360_canva_latam.Conversion_21700000001677020",
       "saSource4": "sa360_canva_na.Conversion_21700000001677014"
     },
-    "next": "get_users"
+    "next": ["get_users", "get_msclkids"]
   },
   "get_users": {
     "type": "query",
@@ -64,6 +64,42 @@
         "tableId": "double_activation_users_${partitionDay}"
       },
       "writeDisposition": "WRITE_TRUNCATE"
+    }
+  },
+  "get_msclkids": {
+    "type": "query",
+    "source": {
+      "file": {
+        "projectId": "${projectId}",
+        "bucket": "${bucket}",
+        "name": "sql/query_DA_MS.sql"
+      }
+    },
+    "destination": {
+      "table": {
+        "projectId": "${projectId}",
+        "datasetId": "${dataset}",
+        "tableId": "double_activation_msclkids_${partitionDay}"
+      },
+      "writeDisposition": "WRITE_TRUNCATE"
+    },
+    "next": "export_ms"
+  },
+  "export_ms": {
+    "type": "export",
+    "source": {
+      "projectId": "${destinationTable.projectId}",
+      "datasetId": "${destinationTable.datasetId}",
+      "tableId": "${destinationTable.tableId}",
+      "location": "#DATASET_LOCATION#"
+    },
+    "destination": {
+      "bucket": "${bucket}",
+      "name": "double-activated-ms.csv"
+    },
+    "options": {
+      "destinationFormat": "CSV",
+      "printHeader": false
     }
   }
 }

@@ -30,14 +30,14 @@ fi
 # Pub/Sub topics, etc.
 # Default project namespace is SOLUTION_NAME.
 # Note: only lowercase letters, numbers and dashes(-) are allowed.
-PROJECT_NAMESPACE="da"
+PROJECT_NAMESPACE="daweb-test"
 TIMEZONE="Australia/Sydney"
 
 # BigQuery Dataset Id.
 DATASET="web_double_activations"
 
 # Other
-GCS_BUCKET="canva-da-bucket-test"
+GCS_BUCKET="double_activation_web-test"
 DATASET_LOCATION="us"
 PROJECT_ENV="test"
 

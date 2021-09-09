@@ -7,7 +7,7 @@ with all_data AS (
         user_id
     FROM
         `${saSource1}`
-        WHERE user_id IS NOT null AND user_id != "undefined"
+        WHERE user_id IS NOT null
     UNION ALL (
         SELECT
             conversionTimestamp,
@@ -17,7 +17,7 @@ with all_data AS (
             user_id
         FROM
             `${saSource2}`
-            WHERE user_id IS NOT null AND user_id != "undefined"
+            WHERE user_id IS NOT null
     )
     UNION ALL (
         SELECT
@@ -28,7 +28,7 @@ with all_data AS (
             user_id
         FROM
             `${saSource3}`
-            WHERE user_id IS NOT null AND user_id != "undefined"
+            WHERE user_id IS NOT null
     )
     UNION ALL (
         SELECT
@@ -39,7 +39,7 @@ with all_data AS (
             user_id
         FROM
             `${saSource4}`
-            WHERE user_id IS NOT null AND user_id != "undefined"
+            WHERE user_id IS NOT null
     )
 ), filtered_data AS (
     SELECT *
