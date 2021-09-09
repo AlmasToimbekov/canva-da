@@ -112,7 +112,7 @@ DEFAULT_INSTALL_TASKS=(
   confirm_region
   "confirm_bucket_with_location GCS_BUCKET us-central1"
   confirm_folder
-  "confirm_dataset_with_location DATASET us"
+  "confirm_dataset_with_location DATASET US"
   create_table
   save_config
   check_firestore_existence
