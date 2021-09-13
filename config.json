@@ -1,0 +1,9 @@
+{
+  "PROJECT_ID": "data-analytics-245500",
+  "PROJECT_NAMESPACE": "daweb",
+  "GCS_BUCKET": "double_activation_web",
+  "DATASET": "web_double_activations",
+  "DATASET_LOCATION": "us",
+  "PROJECT_ENV": "prod",
+  "OUTBOUND": "outbound/"
+}
