@@ -8,7 +8,7 @@ with all_data AS (
         user_id
     FROM
         `${saSource1}`
-        WHERE user_id IS NOT null
+        WHERE user_id IS NOT null AND user_id != "undefined"
     UNION ALL (
         SELECT
             conversionTimestamp,
@@ -18,7 +18,7 @@ with all_data AS (
             user_id
         FROM
             `${saSource2}`
-            WHERE user_id IS NOT null
+            WHERE user_id IS NOT null AND user_id != "undefined"
     )
     UNION ALL (
         SELECT
@@ -29,7 +29,7 @@ with all_data AS (
             user_id
         FROM
             `${saSource3}`
-            WHERE user_id IS NOT null
+            WHERE user_id IS NOT null AND user_id != "undefined"
     )
     UNION ALL (
         SELECT
@@ -40,20 +40,14 @@ with all_data AS (
             user_id
         FROM
             `${saSource4}`
-            WHERE user_id IS NOT null
+            WHERE user_id IS NOT null AND user_id != "undefined"
     )
 ), filtered_data AS (
     SELECT *
     FROM all_data
     WHERE
-        conversionTimestamp BETWEEN DATE_SUB(PARSE_TIMESTAMP("%Y%m%d", '20210907'), INTERVAL 7 DAY)
-        AND PARSE_TIMESTAMP("%Y%m%d", '20210907')
-        -- AND user_id NOT IN (
-        --     SELECT
-        --         user_id
-        --     FROM
-        --         `web_double_activations.double_activation_users_*`
-        -- )
+        conversionTimestamp BETWEEN DATE_SUB(PARSE_TIMESTAMP("%Y%m%d", '${partitionDay}'), INTERVAL 7 DAY)
+        AND PARSE_TIMESTAMP("%Y%m%d", '${partitionDay}')
 ), signup_events AS (
     SELECT
         MIN(conversionTimestamp) AS signup,
