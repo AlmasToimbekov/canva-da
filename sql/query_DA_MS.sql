@@ -14,6 +14,7 @@ with all_data AS (
             conversionTimestamp,
             floodlightActivity,
             conversionVisitExternalClickId,
+            floodlightEventRequestString,
             conversionDate,
             user_id
         FROM
@@ -25,6 +26,7 @@ with all_data AS (
             conversionTimestamp,
             floodlightActivity,
             conversionVisitExternalClickId,
+            floodlightEventRequestString,
             conversionDate,
             user_id
         FROM
@@ -36,6 +38,7 @@ with all_data AS (
             conversionTimestamp,
             floodlightActivity,
             conversionVisitExternalClickId,
+            floodlightEventRequestString,
             conversionDate,
             user_id
         FROM
@@ -76,6 +79,8 @@ with all_data AS (
 ), da_users AS (
     SELECT
         a.user_id AS user_id,
+        filtered_data.conversionVisitExternalClickId AS gclid,
+        b.last_publish AS conversionTimestamp,
     FROM signup_events a
     LEFT JOIN publish_events b ON a.user_id = b.user_id
     LEFT JOIN filtered_data
@@ -95,10 +100,21 @@ with all_data AS (
         AND REGEXP_EXTRACT(floodlightEventRequestString, r"msclkid=(\w+)") IS NOT NULL
 )
 SELECT
-    msclkid AS Microsoft_Click_ID,
+    Microsoft_Click_ID,
     "Double Activation" AS Conversion_Name,
-    UNIX_MICROS(MAX(conversionTimestamp)) AS Conversion_Time,
+    MAX(Conversion_Time) AS Conversion_Time,
     null AS Conversion_Value,
     null AS Conversion_Currency
-FROM ms_clicks
-GROUP BY msclkid
+FROM (
+    SELECT
+        msclkid AS Microsoft_Click_ID,
+        FORMAT_TIMESTAMP("%F %T", conversionTimestamp, "UTC+11") AS Conversion_Time
+    FROM ms_clicks
+    UNION ALL (
+        SELECT
+            gclid,
+            FORMAT_TIMESTAMP("%F %T", conversionTimestamp, "UTC+11")
+        FROM da_users
+    )
+)
+GROUP BY Microsoft_Click_ID
